@@ -1,0 +1,52 @@
+services:
+  db:
+    image: yobasystems/alpine-mariadb:latest  # ARMv7-kompatibel
+    container_name: nextcloud-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD:
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+    networks:
+      - nextcloud-net
+
+  redis:
+    image: redis:alpine
+    container_name: nextcloud-redis
+    restart: always
+    volumes:
+      - /home/axel/redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - nextcloud-net
+
+  app:
+    image: nextcloud:apache
+    container_name: nextcloud
+    restart: always
+    ports:
+      - "8080:80"  # Zugriff über http://localhost:8080
+    volumes:
+      - nextcloud-data:/var/www/html
+      - /mnt/vault/data/nextcloud:/var/www/html/data
+    environment:
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_HOST: db
+    depends_on:
+      - db
+      - redis
+    networks:
+      - nextcloud-net
+
+volumes:
+  nextcloud-data:
+  nextcloud-db:
+
+networks:
+  nextcloud-net:
+    driver: bridge
