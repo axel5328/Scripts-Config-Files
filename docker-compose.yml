@@ -4,10 +4,10 @@ services:
     container_name: nextcloud-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
-      MYSQL_PASSWORD:
+      MYSQL_PASSWORD: MYSQL_PASSWORD
     volumes:
       - nextcloud-db:/var/lib/mysql
     networks:
@@ -29,11 +29,13 @@ services:
     restart: always
     ports:
       - "8080:80"  # Zugriff über http://localhost:8080
+      - "8443:443"  # HTTPS Port
     volumes:
       - nextcloud-data:/var/www/html
       - /mnt/vault/data/nextcloud:/var/www/html/data
+      - ./nextcloud-certs:/etc/apache2/ssl
     environment:
-      MYSQL_PASSWORD:
+      MYSQL_PASSWORD: MYSQL_PASSWORD
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
       MYSQL_HOST: db
@@ -43,6 +45,20 @@ services:
     networks:
       - nextcloud-net
 
+  filen-webdav:
+    image: filen/cli:latest
+    ports:
+      - 13080:80
+    command:
+      - webdav
+      - --email
+      - ${FILEN_EMAIL}
+      - --password
+      - ${FILEN_PASSWORD}
+      - --w-user
+      - ${FILEN_WEBDAV_USER}
+      - --w-password
+      - ${FILEN_WEBDAV_PASSWORD}
 volumes:
   nextcloud-data:
   nextcloud-db:
