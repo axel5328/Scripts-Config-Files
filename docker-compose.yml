@@ -45,29 +45,30 @@ services:
     networks:
       - nextcloud-net
 
-  backup:
-    image: alpine:latest
-    container_name: nextcloud-backup
-    depends_on:
-      - db
-      - app
-    volumes:
-      - /mnt/vault/data/nextcloud:/data:ro       # Nextcloud-Daten (read-only)
-      - /mnt/vault/backup/nextcloud:/backup      # Backup-Ziel
-      - ./backup.sh:/backup/backup.sh:ro         # Dein Script
-      - nextcloud-data:/html:ro                  # Nextcloud Config
-    environment:
-      DB_HOST: db
-      DB_NAME: nextcloud
-      DB_USER: nextcloud
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - nextcloud-net
-    entrypoint: ["/bin/sh", "-c"]
-    command: |
-      apk add --no-cache bash rsync mariadb-client curl &&
-      chmod +x /backup/backup.sh &&
-      /backup/backup.sh
+#  backup: # only local Backup Cloudbackup to filen not possible no Webdav support, Filen Cli not ArmV7 compatible still needs dome work
+
+#    image: alpine:latest
+#    container_name: nextcloud-backup
+#    depends_on:
+#      - db
+#      - app
+#    volumes:
+#      - /mnt/vault/data/nextcloud:/data:ro       # Nextcloud-Daten (read-only)
+#      - /mnt/vault/backup/nextcloud:/backup      # Backup-Ziel
+#      - ./backup.sh:/backup/backup.sh:ro         # Dein Script
+#      - nextcloud-data:/html:ro                  # Nextcloud Config
+#    environment:
+#      DB_HOST: db
+#      DB_NAME: nextcloud
+#      DB_USER: nextcloud
+#      DB_PASSWORD: ${MYSQL_PASSWORD}
+#    networks:
+#      - nextcloud-net
+#    entrypoint: ["/bin/sh", "-c"]
+#    command: |
+#      apk add --no-cache bash rsync mariadb-client curl &&
+#      chmod +x /backup/backup.sh &&
+#      /backup/backup.sh
 volumes:
   nextcloud-data:
   nextcloud-db:
