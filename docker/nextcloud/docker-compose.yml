@@ -1,0 +1,53 @@
+services:
+  db:
+    image: mariadb:11-noble
+    container_name: nextcloud-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+    networks:
+      - nextcloud-net
+
+  redis:
+    image: redis:alpine
+    container_name: nextcloud-redis
+    restart: always
+    volumes:
+      - /home/axel/redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - nextcloud-net
+
+  app:
+    image: nextcloud:apache
+    container_name: nextcloud
+    restart: always
+    ports:
+      - "8080:80"  # Zugriff über http://localhost:8080
+      - "8443:443"  # HTTPS Port
+    volumes:
+      - nextcloud-data:/var/www/html
+      - /mnt/data/nextcloud:/var/www/html/data
+      - ./nextcloud-certs:/etc/apache2/ssl
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_HOST: db
+    depends_on:
+      - db
+      - redis
+    networks:
+      - nextcloud-net
+volumes:
+  nextcloud-data:
+  nextcloud-db:
+
+networks:
+  nextcloud-net:
+    driver: bridge
