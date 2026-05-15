@@ -1,0 +1,60 @@
+---
+- name: Bootstrap Ansible User
+  hosts: all
+  become: true
+
+  vars:
+    ansible_pubkey: "{{ lookup('file', lookup('env','HOME') + '/.ssh/ansible_ed25519.pub') }}"
+
+  tasks:
+    - name: ansible User anlegen
+      user:
+        name: ansible
+        groups: "{{ 'sudo' if ansible_os_family == 'Debian' else 'wheel' }}"
+        append: yes
+        shell: "{{ '/bin/bash' if ansible_os_family == 'Debian' else '/bin/ash' }}"
+        create_home: yes
+
+    - name: SSH-Verzeichnis erstellen
+      file:
+        path: /home/ansible/.ssh
+        state: directory
+        owner: ansible
+        group: ansible
+        mode: '0700'
+
+    - name: Public Key hinterlegen
+      authorized_key:
+        user: ansible
+        key: "{{ ansible_pubkey }}"
+
+    - name: Passwortloses sudo erlauben
+      copy:
+        dest: /etc/sudoers.d/ansible
+        content: |
+          ansible ALL=(ALL) NOPASSWD:ALL
+        mode: '0440'
+
+    - name: PasswordAuthentication deaktivieren
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+
+    - name: Root Login deaktivieren
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin no'
+
+    - name: SSH neu starten Debian
+      service:
+        name: ssh
+        state: restarted
+      when: ansible_os_family == "Debian"
+
+    - name: SSH neu starten Alpine
+      service:
+        name: sshd
+        state: restarted
+      when: ansible_os_family == "Alpine"

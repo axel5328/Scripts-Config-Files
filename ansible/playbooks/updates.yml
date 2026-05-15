@@ -1,0 +1,42 @@
+---
+- name: Paketupdates auf allen Nodes
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Debian/Ubuntu Paketcache aktualisieren
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Debian/Ubuntu Pakete aktualisieren
+      apt:
+        upgrade: dist
+        autoremove: true
+        autoclean: true
+      when: ansible_os_family == "Debian"
+
+    - name: Alpine Paketindex aktualisieren
+      apk:
+        update_cache: true
+      when: ansible_os_family == "Alpine"
+
+    - name: Alpine Pakete aktualisieren
+      apk:
+        upgrade: true
+      when: ansible_os_family == "Alpine"
+
+    - name: Debian Reboot erforderlich prüfen
+      stat:
+        path: /var/run/reboot-required
+      register: debian_reboot_required
+      when: ansible_os_family == "Debian"
+
+    - name: Debian neu starten falls erforderlich
+      reboot:
+        msg: "Reboot durch Ansible nach Paketupdates"
+        reboot_timeout: 600
+      when:
+        - ansible_os_family == "Debian"
+        - debian_reboot_required.stat.exists
