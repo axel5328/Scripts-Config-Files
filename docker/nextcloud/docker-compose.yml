@@ -19,7 +19,7 @@ services:
     restart: always
     volumes:
       - /home/axel/redis-data:/data
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
     networks:
       - nextcloud-net
 
@@ -28,17 +28,23 @@ services:
     container_name: nextcloud
     restart: always
     ports:
-      - "8080:80"  # Zugriff über http://localhost:8080
-      - "8443:443"  # HTTPS Port
+      - "192.168.178.69:8080:80"
     volumes:
       - nextcloud-data:/var/www/html
       - /mnt/data/nextcloud:/var/www/html/data
-      - ./nextcloud-certs:/etc/apache2/ssl
     environment:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_HOST: db
+      # Nextcloud läuft hinter Traefik
+      OVERWRITEPROTOCOL: https
+      OVERWRITECLIURL: https://nc.lan
+      TRUSTED_PROXIES: 192.168.178.74
+
+      # Redis-Passwort an Nextcloud weitergeben
+      REDIS_HOST: redis
+      REDIS_HOST_PASSWORD: ${REDIS_PASSWORD}
     depends_on:
       - db
       - redis
