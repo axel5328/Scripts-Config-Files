@@ -1,0 +1,33 @@
+- hosts: monitoring_targets
+  become: true
+
+  tasks:
+    - name: Node Exporter Verzeichnis erstellen
+      file:
+        path: /opt/node-exporter
+        state: directory
+        mode: '0755'
+
+    - name: Compose Datei kopieren
+      copy:
+        dest: /opt/node-exporter/compose.yml
+        content: |
+          services:
+            node-exporter:
+              image: prom/node-exporter:latest
+              container_name: node-exporter
+              restart: unless-stopped
+
+              command:
+                - '--path.rootfs=/host'
+
+              network_mode: host
+              pid: host
+
+              volumes:
+                - '/:/host:ro'
+
+    - name: Node Exporter starten
+      community.docker.docker_compose_v2:
+        project_src: /opt/node-exporter
+        state: present
