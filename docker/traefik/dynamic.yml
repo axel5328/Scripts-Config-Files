@@ -1,0 +1,89 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`nc.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: nextcloud
+
+    nextcloud-cf:
+      rule: "Host(`nc.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: nextcloud
+      middlewares:
+        - nextcloud-headers
+
+    adguard:
+      rule: "Host(`ad.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: adguard
+
+    homeassistant:
+      rule: "Host(`ha.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: homeassistant
+
+    fritz:
+      rule: "Host(`fritz.box`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: fritz
+
+    prometheus:
+      rule: "Host(`prom.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: prometheus
+
+    ntfy:
+      rule: "Host(`ntfy.node-forge.eu`)"
+      entryPoints:
+        - web
+      service: ntfy
+
+  middlewares:
+    nextcloud-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+          X-Forwarded-Ssl: "on"
+
+  services:
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.69:8080"
+
+    adguard:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.76:80"
+
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.75:8123"
+
+    fritz:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.1"
+
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.77:9090"
+
+    ntfy:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.77:2586"
