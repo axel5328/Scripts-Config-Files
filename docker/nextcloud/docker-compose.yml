@@ -39,8 +39,10 @@ services:
       MYSQL_HOST: db
       # Nextcloud läuft hinter Traefik
       OVERWRITEPROTOCOL: https
-      OVERWRITECLIURL: https://nc.lan
+      OVERWRITEHOST: nc.node-forge.eu
+      OVERWRITECLIURL: https://nc.node-forge.eu
       TRUSTED_PROXIES: 192.168.178.74
+      NEXTCLOUD_TRUSTED_DOMAINS: "localhost 192.168.178.69 nc.lan nc.node-forge.eu"
 
       # Redis-Passwort an Nextcloud weitergeben
       REDIS_HOST: redis
