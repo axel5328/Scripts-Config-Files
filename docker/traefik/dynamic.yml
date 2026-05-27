@@ -15,7 +15,13 @@ http:
       service: nextcloud
       middlewares:
         - nextcloud-headers
-
+    jellyfin:
+      rule: "Host(`jellyfin.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: jellyfin
+      
     adguard:
       rule: "Host(`ad.lan`)"
       entryPoints:
@@ -62,7 +68,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.178.69:8080"
-
+    jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.69:8096"
     adguard:
       loadBalancer:
         servers:
