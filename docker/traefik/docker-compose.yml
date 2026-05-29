@@ -5,9 +5,7 @@ services:
     restart: unless-stopped
     environment:
       CONTAINERS: 1
-      SERVICES: 1
       NETWORKS: 1
-      TASKS: 1
       INFO: 1
       VERSION: 1
     volumes:
@@ -39,7 +37,6 @@ services:
       - --providers.docker.exposedbydefault=false
       - --providers.docker.network=proxy
 
-      - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
 
 #      - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -53,7 +50,6 @@ services:
       - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
 
     ports:
-      - "80:80"
       - "443:443"
       
     volumes:
