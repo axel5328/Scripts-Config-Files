@@ -50,7 +50,9 @@ http:
     ntfy:
       rule: "Host(`ntfy.node-forge.eu`)"
       entryPoints:
-        - web
+        - websecure
+      tls:
+        certResolver: cloudflare
       service: ntfy
     matrix:
       rule: "Host(`matrix.node-forge.eu`)"
@@ -59,6 +61,15 @@ http:
       tls:
         certResolver: cloudflare
       service: matrix
+
+    wellknown:
+      rule: "Host(`node-forge.eu`) && PathPrefix(`/.well-known/matrix`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: wellknown
+
   middlewares:
     nextcloud-headers:
       headers:
@@ -104,3 +115,8 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.178.78:8008"
+
+    wellknown:
+      loadBalancer:
+        servers:
+          - url: "http://matrix-wellknown:80"
