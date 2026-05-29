@@ -21,6 +21,12 @@ http:
         - websecure
       tls: {}
       service: jellyfin
+    jellyfin-cf:
+      rule: "Host(`jellyfin.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: jellyfin
       
     adguard:
       rule: "Host(`ad.lan`)"
@@ -55,7 +61,13 @@ http:
       entryPoints:
         - web
       service: ntfy
-
+    matrix:
+      rule: "Host(`matrix.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: matrix
   middlewares:
     nextcloud-headers:
       headers:
@@ -96,3 +108,8 @@ http:
       loadBalancer:
         servers:
           - url: "http://192.168.178.77:2586"
+    
+    matrix:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.78:8008"
