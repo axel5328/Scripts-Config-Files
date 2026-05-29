@@ -18,7 +18,7 @@ services:
     container_name: nextcloud-redis
     restart: always
     volumes:
-      - /opt/stacks/redis-data:/data
+      - ./redis-data:/data:/data
     command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
     networks:
       - nextcloud-net
