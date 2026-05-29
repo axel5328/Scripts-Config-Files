@@ -12,7 +12,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - socket-proxy
-
+  wellknown:
+    image: nginx:alpine
+    container_name: matrix-wellknown
+    restart: unless-stopped
+    volumes:
+      - ../matrix-wellknown:/usr/share/nginx/html:ro
+    networks:
+      - proxy
   traefik:
     image: traefik:v3.6
     container_name: traefik
@@ -48,10 +55,9 @@ services:
       - --certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json
       - --certificatesresolvers.cloudflare.acme.dnschallenge=true
       - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
-
+      - --entrypoints.matrix-federation.address=:8448
     ports:
       - "443:443"
-      
     volumes:
       - ./dynamic.yml:/etc/traefik/dynamic.yml:ro
       - ./letsencrypt:/letsencrypt
