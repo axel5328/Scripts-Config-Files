@@ -8,8 +8,8 @@ BACKUP_STACK="/opt/stacks/backup"
 DATA_ROOT="/mnt/data"
 BACKUP_ROOT="/mnt/backup-usb"
 
-NEXTCLOUD_DATA="$DATA_ROOT/nextcloud/"
-BACKUP_TARGET="$BACKUP_ROOT/nextcloud/"
+NEXTCLOUD_DATA="$DATA_ROOT/nextcloud"
+BACKUP_TARGET="$BACKUP_ROOT/nextcloud"
 
 DATE=$(date +%F)
 
@@ -28,6 +28,11 @@ send_matrix() {
     }')" >/dev/null || echo "WARN: Matrix-Benachrichtigung fehlgeschlagen"
 }
 
+if [[ ! -f "$NEXTCLOUD_STACK/.env" ]]; then
+  echo "ERROR: Nextcloud .env fehlt!"
+  exit 1
+fi
+
 if [[ ! -f "$BACKUP_STACK/.env" ]]; then
   echo "ERROR: Backup .env fehlt!"
   exit 1
@@ -37,6 +42,10 @@ set -a
 source "$NEXTCLOUD_STACK/.env"
 source "$BACKUP_STACK/.env"
 set +a
+cleanup() {
+  docker exec -u www-data nextcloud php occ maintenance:mode --off >/dev/null 2>&1 || true
+}
+trap cleanup EXIT
 
 if ! mountpoint -q "$BACKUP_ROOT"; then
   echo "ERROR: Backup-Ziel ist nicht gemountet: $BACKUP_ROOT"
@@ -54,7 +63,7 @@ docker exec -u www-data nextcloud php occ maintenance:mode --on
 echo "=== Daten sichern ==="
 START_RSYNC=$(date +%s)
 
-rsync -rlptDH --delete \
+rsync -rltDH --delete \
   --info=stats2,progress2 \
   --exclude='appdata_*' \
   --exclude='updater-*/' \
@@ -79,7 +88,7 @@ END_DB=$(date +%s)
 
 echo "=== Maintenance Mode OFF ==="
 docker exec -u www-data nextcloud php occ maintenance:mode --off
-
+trap - EXIT
 END_TOTAL=$(date +%s)
 
 RSYNC_TIME=$((END_RSYNC - START_RSYNC))
