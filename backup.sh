@@ -54,8 +54,7 @@ docker exec -u www-data nextcloud php occ maintenance:mode --on
 echo "=== Daten sichern ==="
 START_RSYNC=$(date +%s)
 
-rsync -aH --delete \
-  --numeric-ids \
+rsync -rlptDH --delete \
   --info=stats2,progress2 \
   --exclude='appdata_*' \
   --exclude='updater-*/' \
