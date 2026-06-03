@@ -1,0 +1,13 @@
+services:
+  matrix-wellknown:
+    image: nginx:alpine
+    container_name: matrix-wellknown
+    restart: unless-stopped
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
