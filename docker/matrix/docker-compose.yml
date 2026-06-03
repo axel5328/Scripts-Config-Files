@@ -14,6 +14,9 @@ services:
       - matrix
 
   synapse:
+    dns:
+      - 192.168.178.76
+      - 1.1.1.1
     image: matrixdotorg/synapse:latest
     container_name: matrix-synapse
     restart: unless-stopped
