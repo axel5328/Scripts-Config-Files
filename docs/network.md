@@ -82,7 +82,7 @@ Main components:
 ## Planned / Future Services
 
 | Service | Purpose | state |
-|---|---|
+|---|---|---|
 | Vaultwarden | Password manager | maybe |
 | Stirling PDF | PDF tools, possibly integrated with Nextcloud | planned |
 | Collabora Office | Nextcloud Office backend | planned |
