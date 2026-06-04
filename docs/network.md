@@ -19,15 +19,15 @@ Main components:
 
 ## Hosts
 
-| Host | Role | Notes |
-|---|---|---|
-| `rproxy` | Reverse Proxy | Traefik, Cloudflare Tunnel, matrix-wellknown |
-| `nc` | Application Server | Nextcloud, MariaDB, Redis, Jellyfin |
-| `matrix` | Matrix Server | Synapse, Postgres |
-| `adguard` | DNS Server | Internal DNS / DNS rewrites |
-| `ha` | Home Automation | Home Assistant |
-| `mon` | Monitoring | Prometheus, Grafana, Uptime Kuma, ntfy |
-| `mgm` | Management | Semaphore / Ansible |
+| Host | internal IP | Role | Notes |
+|---|---|---|---|
+| `rproxy` | 192.168.178.74 | Reverse Proxy | Traefik, Cloudflare Tunnel, matrix-wellknown |
+| `nc` | 192.168.178.74 | Application Server | Nextcloud, MariaDB, Redis, Jellyfin |
+| `mx` | 192.168.178.78 | Matrix Server | Synapse, Postgres |
+| `adguard` | 192.168.178.76 | DNS Server | Internal DNS / DNS rewrites |
+| `ha` | 192.168.178.75 | Home Automation | Home Assistant |
+| `mon` | 192.168.178.77 | Monitoring | Prometheus, Grafana, Uptime Kuma, ntfy |
+| `mgm` | 192.168.178.44 | Management | Semaphore / Ansible |
 
 ## Internal DNS
 
