@@ -12,14 +12,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - socket-proxy
-  wellknown:
-    image: nginx:alpine
-    container_name: matrix-wellknown
-    restart: unless-stopped
-    volumes:
-      - ../matrix-wellknown:/usr/share/nginx/html:ro
-    networks:
-      - proxy
   traefik:
     image: traefik:v3.6
     container_name: traefik
@@ -62,9 +54,10 @@ services:
       - ./letsencrypt:/letsencrypt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`prox.lan`)"
+      - "traefik.http.routers.traefik.rule=Host(`prox.node-forge.eu`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=cloudflare"
       - "traefik.http.routers.traefik.service=api@internal"
 
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
