@@ -22,7 +22,7 @@ Main components:
 | Host | internal IP | Role | Notes |
 |---|---|---|---|
 | `rproxy` | 192.168.178.74 | Reverse Proxy | Traefik, Cloudflare Tunnel, matrix-wellknown |
-| `nc` | 192.168.178.74 | Application Server | Nextcloud, MariaDB, Redis, Jellyfin |
+| `nc` | 192.168.178.69 | Application Server | Nextcloud, MariaDB, Redis, Jellyfin |
 | `mx` | 192.168.178.78 | Matrix Server | Synapse, Postgres |
 | `adguard` | 192.168.178.76 | DNS Server | Internal DNS / DNS rewrites |
 | `ha` | 192.168.178.75 | Home Automation | Home Assistant |
