@@ -81,15 +81,15 @@ Main components:
 
 ## Planned / Future Services
 
-| Service | Purpose |
+| Service | Purpose | state |
 |---|---|
-| Vaultwarden | Password manager | maybe
-| Stirling PDF | PDF tools, possibly integrated with Nextcloud |
-| Collabora Office | Nextcloud Office backend |
-| CrowdSec | Security / intrusion prevention |
-| SMART Monitoring | Disk health monitoring |
-| Matrix Bridges | WhatsApp, maybe Discord bridges |
-| cAdvisor | Container metrics |planned
+| Vaultwarden | Password manager | maybe |
+| Stirling PDF | PDF tools, possibly integrated with Nextcloud | planned |
+| Collabora Office | Nextcloud Office backend | planned |
+| CrowdSec | Security / intrusion prevention | planned |
+| SMART Monitoring | Disk health monitoring | planned (in bakup Script notify via matrix) |
+| Matrix Bridges | WhatsApp, maybe Discord bridges | planned |
+| cAdvisor | Container metrics |planned |
 
 ## Notes
 
