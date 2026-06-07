@@ -18,7 +18,7 @@ services:
     volumes:
       - ./data:/var/lib/crowdsec/data
       - ./config:/etc/crowdsec
-      - ./acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      - ./acquis.d:/etc/crowdsec/acquis.d:ro
       # Traefik Access Logs
       - /opt/stacks/traefik/logs:/logs/traefik:ro
 
