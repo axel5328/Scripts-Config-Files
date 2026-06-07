@@ -1,0 +1,15 @@
+type: http
+name: matrix
+log_level: info
+
+url: "http://crowdsec-matrix-webhook:8080/"
+method: POST
+
+headers:
+  Authorization: "Bearer CHANGE_ME"
+  Content-Type: "application/json"
+
+format: |
+  {
+    "body": "🚨 CrowdSec Alert\n{{ range . }}Scenario: {{ .Scenario }}\nSource: {{ .Source.Scope }} {{ .Source.Value }}\n{{ range .Decisions }}Decision: {{ .Type }} {{ .Duration }}\n{{ end }}{{ end }}"
+  }
