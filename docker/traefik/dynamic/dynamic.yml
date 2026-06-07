@@ -10,6 +10,7 @@ http:
       service: nextcloud
       middlewares:
         - nextcloud-headers
+        -crowdsec
     jellyfin-cf:
       rule: "Host(`jellyfin.node-forge.eu`)"
       entryPoints:
