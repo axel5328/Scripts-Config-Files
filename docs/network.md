@@ -70,6 +70,7 @@ Main components:
 | Node Exporter | Host metrics |
 | ntfy | Notifications |
 | grafana-matrix-forwarder | Matrix alert forwarding |
+| CrowdSec | Security / intrusion prevention |
 
 ## Management
 
