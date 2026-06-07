@@ -1,0 +1,16 @@
+services:
+  crowdsec-matrix-webhook:
+    image: python:3.13-alpine
+    container_name: crowdsec-matrix-webhook
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./app.py:/app/app.py:ro
+    command: ["python", "/app/app.py"]
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
