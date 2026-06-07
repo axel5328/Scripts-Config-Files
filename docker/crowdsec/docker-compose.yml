@@ -1,0 +1,38 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: unless-stopped
+
+    environment:
+      COLLECTIONS: >
+        crowdsecurity/linux
+        crowdsecurity/sshd
+        crowdsecurity/traefik
+        crowdsecurity/http-cve
+        crowdsecurity/base-http-scenarios
+
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    volumes:
+      - ./data:/var/lib/crowdsec/data
+      - ./config:/etc/crowdsec
+      - ./acquis.yaml:/etc/crowdsec/acquis.yaml:ro
+      # Traefik Access Logs
+      - /opt/stacks/traefik/logs:/logs/traefik:ro
+
+      # Alpine System Logs
+      - /var/log:/var/log:ro
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
