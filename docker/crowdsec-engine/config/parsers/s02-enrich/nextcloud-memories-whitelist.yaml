@@ -1,0 +1,8 @@
+name: custom/nextcloud-memories-whitelist
+description: "Whitelist Nextcloud Memories preview API"
+whitelist:
+  reason: "Nextcloud Memories app generates many preview requests"
+  expression:
+    - evt.Meta.http_path startsWith '/apps/memories/api/image/preview/'
+    - evt.Meta.http_path == '/apps/memories/api/image/multipreview'
+    - evt.Meta.http_path startsWith '/apps/memories/api/days/'
