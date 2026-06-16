@@ -1,0 +1,5 @@
+compose_projects:
+  - /opt/stacks/traefik
+  - /opt/stacks/crowdsec-engine
+  - /opt/stacks/matrix-wellknown/
+  - /opt/stacks/crowdsec-matrix-webhook

@@ -1,0 +1,4 @@
+compose_projects:
+  - /opt/stacks/monitoring
+  - /opt/stacks/ntfy
+  - /opt/stacks/matrix-alerts
