@@ -12,7 +12,12 @@ services:
       - nextcloud-db:/var/lib/mysql
     networks:
       - nextcloud-net
-
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u root -p$${MARIADB_ROOT_PASSWORD} --silent"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
   redis:
     image: redis:alpine
     container_name: nextcloud-redis
@@ -22,14 +27,23 @@ services:
     command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
     networks:
       - nextcloud-net
-
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
   app:
     build:
       context: .
     container_name: nextcloud
     restart: always
     ports:
-      - "192.168.178.69:8080:80"
+      - "8080:80"
+    devices:
+      - /dev/dri:/dev/dri
+
+    group_add:
+      - "992"
     volumes:
       - nextcloud-data:/var/www/html
       - /mnt/data/nextcloud:/var/www/html/data
@@ -53,6 +67,12 @@ services:
       - redis
     networks:
       - nextcloud-net
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/status.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 volumes:
   nextcloud-data:
   nextcloud-db:
