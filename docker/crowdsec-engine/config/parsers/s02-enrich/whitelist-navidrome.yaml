@@ -1,0 +1,7 @@
+name: local/whitelist-navidrome-share-img
+description: "Ignore Navidrome share image 404 responses"
+filter: "evt.Meta.service == 'http'"
+whitelist:
+  reason: "Navidrome share/img false positive"
+  expression:
+    - "evt.Meta.traefik_router_name == 'navidrome@file' && evt.Meta.http_verb == 'GET' && evt.Meta.http_status == '404' && evt.Meta.http_path startsWith '/share/img/'"
