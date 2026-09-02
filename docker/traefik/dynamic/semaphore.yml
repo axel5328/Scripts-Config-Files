@@ -1,0 +1,17 @@
+http:
+  routers:
+
+    semaphore:
+      rule: "Host(`sema.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: semaphore
+
+  services:
+
+    semaphore:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.44:3000"

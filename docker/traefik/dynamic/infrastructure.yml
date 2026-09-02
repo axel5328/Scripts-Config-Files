@@ -1,0 +1,41 @@
+http:
+  routers:
+
+    adguard:
+      rule: "Host(`ad.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: adguard
+
+    homeassistant:
+      rule: "Host(`ha.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: homeassistant
+
+    fritz:
+      rule: "Host(`fritz.box`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: fritz
+
+  services:
+
+    adguard:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.76:80"
+
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.75:8123"
+
+    fritz:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.1"

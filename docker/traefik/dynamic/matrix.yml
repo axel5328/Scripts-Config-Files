@@ -1,0 +1,34 @@
+http:
+  routers:
+
+    matrix:
+      rule: "Host(`matrix.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: matrix
+      middlewares:
+        - crowdsec
+
+    matrix-wellknown:
+      rule: "Host(`node-forge.eu`) && PathPrefix(`/.well-known/matrix`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: wellknown
+      middlewares:
+        - crowdsec
+
+  services:
+
+    matrix:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.78:8008"
+
+    wellknown:
+      loadBalancer:
+        servers:
+          - url: "http://matrix-wellknown:80"

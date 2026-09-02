@@ -1,0 +1,20 @@
+http:
+  routers:
+
+    nextcloud:
+      rule: "Host(`nc.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: nextcloud
+      middlewares:
+        - forwarded-headers
+        - crowdsec
+
+  services:
+
+    nextcloud:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.69:8080"

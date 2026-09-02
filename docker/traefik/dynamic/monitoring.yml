@@ -1,0 +1,31 @@
+http:
+  routers:
+
+    prometheus:
+      rule: "Host(`prom.lan`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: prometheus
+
+    ntfy:
+      rule: "Host(`ntfy.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: ntfy
+      middlewares:
+        - crowdsec
+
+  services:
+
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.77:9090"
+
+    ntfy:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.77:2586"

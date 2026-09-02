@@ -1,0 +1,8 @@
+http:
+  middlewares:
+
+    forwarded-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+          X-Forwarded-Ssl: "on"

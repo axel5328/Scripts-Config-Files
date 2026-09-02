@@ -1,0 +1,19 @@
+http:
+  routers:
+
+    navidrome:
+      rule: "Host(`navi.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: navidrome
+      middlewares:
+        - crowdsec
+
+  services:
+
+    navidrome:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.69:4533"
