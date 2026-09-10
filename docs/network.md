@@ -22,7 +22,7 @@ Main components:
 | Host | internal IP | Role | Notes |
 |---|---|---|---|
 | `rproxy` | 192.168.178.74 | Reverse Proxy | Traefik, Cloudflare Tunnel, matrix-wellknown |
-| `nc` | 192.168.178.69 | Application Server | Nextcloud, MariaDB, Redis, Jellyfin |
+| `nc` | 192.168.178.69 | Application Server | Nextcloud, MariaDB, Redis, Jellyfin, Navidrome |
 | `mx` | 192.168.178.78 | Matrix Server | Synapse, Postgres |
 | `adguard` | 192.168.178.76 | DNS Server | Internal DNS / DNS rewrites |
 | `ha` | 192.168.178.75 | Home Automation | Home Assistant |
@@ -34,6 +34,9 @@ Main components:
 | DNS Name | Target | Service |
 |---|---|---|
 | `nc.node-forge.eu` | `nc` | Nextcloud |
+| `navi.node-forge.eu` | `nc` | Navidrome |
+| `jellyfin.node-forge.eu` | `nc` | Jellyfin |
+| `sema.node-forge.eu` | `mgm` | Semaphore |
 | `ad.node-forge.eu` | `ad` | AdGuard |
 | `ha.node-forge.eu` | `ha` | Home Assistant |
 | `prox.node-forge.eu` | `rproxy` | Traefik Dashboard |
@@ -45,6 +48,7 @@ Main components:
 |---|---|---|
 | `node-forge.eu` | Main domain / Matrix well-known | Cloudflare Tunnel → Traefik |
 | `nc.node-forge.eu` | Nextcloud | Cloudflare Tunnel → Traefik → Nextcloud |
+| `navi.node-forge.eu` | Navidrome | Cloudflare Tunnel → Traefik → Navidrome |
 | `matrix.node-forge.eu` | Matrix Synapse | Cloudflare Tunnel → Traefik → Synapse |
 | `jellyfin.node-forge.eu` | jellyfin | Cloudflare Tunnel → Traefik → Jellyfin |
 ## Reverse Proxy Routing
@@ -53,6 +57,7 @@ Main components:
 |---|---|
 | Cloudflare Tunnel | Traefik |
 | Traefik | Nextcloud |
+| Traefik | Navidrome |
 | Traefik | Matrix Synapse |
 | Traefik | Matrix well-known |
 | Traefik | Jellyfin |
@@ -87,7 +92,6 @@ Main components:
 | Vaultwarden | Password manager | maybe |
 | Stirling PDF | PDF tools, possibly integrated with Nextcloud | planned |
 | Collabora Office | Nextcloud Office backend | planned |
-| CrowdSec | Security / intrusion prevention | planned |
 | SMART Monitoring | Disk health monitoring | planned (in bakup Script notify via matrix) |
 | Matrix Bridges | WhatsApp, maybe Discord bridges | planned |
 | cAdvisor | Container metrics |planned |
