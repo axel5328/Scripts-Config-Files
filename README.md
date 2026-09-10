@@ -2,9 +2,7 @@
 
 Zentrale Sammlung meiner Skripte, Konfigurationsdateien und Automatisierungsprojekte für Linux-, Docker- und Homelab-Umgebungen.
 
-## Repository Inhalt
 
-Dieses Repository enthält Skripte, Konfigurationsdateien und Automatisierungen rund um Linux-, Docker- und Homelab-Umgebungen.
 
 ## Enthaltene Themen
 
@@ -48,7 +46,7 @@ Enthalten sind unter anderem:
 - Ansible
 - Bash
 - YAML
-- Git & GitHub
+- Git
 
 ---
 
@@ -89,11 +87,7 @@ Dazu gehören unter anderem:
 - Docker Compose Dateien auf die eigene Umgebung abstimmen
 - Ansible Inventory und Hosts anpassen
 
-## Lizenz
 
-MIT License
-
----
 
 ## Hinweis
 
