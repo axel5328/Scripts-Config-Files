@@ -1,6 +1,6 @@
 # Roadmap
 
-## Planned (when hardware becomes affordable again
+## Planned (when hardware becomes affordable again)
 - [ ] Build new 4-bay NAS
 - [ ] 4x 4TB or 4x8TB Raid 5
 - [ ] Migrate media storage
