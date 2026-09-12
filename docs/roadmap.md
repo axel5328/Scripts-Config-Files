@@ -10,14 +10,15 @@
 - [ ] Add managed Switch (10 inch)
 - [ ] Rack-mount hardware in 10-inch rack
 
+## Planned Services
+- [ ] Bridge Matrix <--> Whatsapp
+ 
 ## In Progress
 - [ ] Improve Navidrome setup
     - [ ] Add Release Radar Alternative
     - [ ] Add monitoring for Navidrome
     - [ ] Add automated backup for Navidrome database and configuration
       
-
-
 ## Completed
 - [x] Deploy Matrix Synapse
 - [x] Deploy Navidrome
