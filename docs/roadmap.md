@@ -15,6 +15,7 @@
  
 ## In Progress
 - [ ] Improve Navidrome setup
+    - [ ] import playlists from Spotify
     - [ ] Add Release Radar Alternative
     - [ ] Add monitoring for Navidrome
     - [ ] Add automated backup for Navidrome database and configuration
