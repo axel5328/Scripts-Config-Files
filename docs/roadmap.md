@@ -6,7 +6,7 @@
 - [ ] Add two additional Proxmox nodes
 - [ ] Configure Proxmox HA
 - [ ] Introduce centralized backup strategy
-- [ ] Add managed Switch
+- [ ] Add managed Switch (10 inch)
 - [ ] Rack-mount hardware in 10-inch rack
 
 ## In Progress
