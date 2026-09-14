@@ -12,6 +12,8 @@
 
 ## Planned Services
 - [ ] Bridge Matrix <--> Whatsapp
+- [ ] Stirling PDF
+- [ ] Paperless-ngx
  
 ## In Progress
 - [ ] Improve Navidrome setup
