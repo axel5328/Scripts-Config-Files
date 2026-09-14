@@ -11,7 +11,7 @@
 - [ ] Rack-mount hardware in 10-inch rack
 
 ## Planned Services
-- [ ] Bridge Matrix <--> Whatsapp
+- [ ] Bridge Matrix Synapse <--> Whatsapp
 - [ ] Stirling PDF
 - [ ] Paperless-ngx
  
