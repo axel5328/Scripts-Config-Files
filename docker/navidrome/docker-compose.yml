@@ -1,0 +1,23 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+
+    environment:
+      ND_LOGLEVEL: info
+      ND_SCANSCHEDULE: 1h
+      ND_SESSIONTIMEOUT: 24h
+      ND_BASEURL: ""
+      ND_LYRICSPRIORITY: ".lrc,embedded"
+
+      # Last.fm
+      ND_LASTFM_ENABLED: "true"
+      ND_LASTFM_APIKEY: "${LASTFM_APIKEY}"
+      ND_LASTFM_SECRET: "${LASTFM_SECRET}"
+    volumes:
+      - ./data:/data
+      - /mnt/data/media/navidrome:/music:ro
+
+    ports:
+      - "4533:4533"
