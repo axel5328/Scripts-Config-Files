@@ -1,0 +1,15 @@
+http:
+  routers:
+    paperless:
+      rule: "Host(`paperless.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      service: paperless
+      tls:
+        certResolver: cloudflare
+
+  services:
+    paperless:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.72:8000"
