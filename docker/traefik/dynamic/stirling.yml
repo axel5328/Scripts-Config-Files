@@ -1,0 +1,17 @@
+http:
+  routers:
+    stirling:
+      rule: "Host(`pdf.node-forge.eu`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: cloudflare
+      service: stirling
+      middlewares:
+        - crowdsec
+
+  services:
+    stirling:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.178.72:8080"

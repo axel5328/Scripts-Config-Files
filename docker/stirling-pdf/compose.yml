@@ -1,0 +1,17 @@
+services:
+  stirling-pdf:
+    image: docker.io/stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    restart: unless-stopped
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./configs:/configs
+      - ./tessdata:/usr/share/tessdata
+      - ./logs:/logs
+      - ./pipeline:/pipeline
+
+    environment:
+      SYSTEM_DEFAULTLOCALE: de-DE
