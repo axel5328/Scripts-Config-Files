@@ -21,3 +21,27 @@ services:
 
     ports:
       - "4533:4533"
+
+  magiclists:
+    image: pirus999/magic-lists-ai-curator:latest
+    container_name: magiclists
+    ports:
+      - "4545:8000"
+    environment:
+      # --- Music server ---
+      - SERVER_TYPE=navidrome                  # or: jellyfin
+      - NAVIDROME_URL=http://navidrome:4533   # Jellyfin: JELLYFIN_URL=http://jellyfin:8096
+      - NAVIDROME_USERNAME=${Navi_USER}       # Jellyfin: JELLYFIN_USERNAME
+      - NAVIDROME_PASSWORD=${Navi_PW}       # Jellyfin: JELLYFIN_PASSWORD or JELLYFIN_API_KEY
+
+      # --- Database (required) ---
+      - DATABASE_PATH=/app/data/magiclists.db
+
+      # --- AI (recommended: Google) ---
+      - AI_PROVIDER=google                     # openrouter, groq, google, ollama
+      - AI_API_KEY=${API_Key}
+      - AI_MODEL=gemini-3.1-flash-lite
+      - DESCRIPTION_AI_MODEL=gemma-4-26b-a4b-it
+    volumes:
+      - ./magiclists-data:/app/data           # persist database + settings
+    restart: unless-stopped
