@@ -2,3 +2,6 @@ compose_projects:
   - /opt/stacks/nextcloud
   - /opt/stacks/jellyfin
   - /opt/stacks/navidrome
+# Diese Compose-Projekte haben eigene Dockerfiles und müssenneu gebaut werden
+compose_build_projects:
+  - /opt/stacks/nextcloud
