@@ -1,0 +1,41 @@
+---
+- name: Docker Container aktualisieren
+  hosts: docker_hosts
+  become: true
+
+  tasks:
+    - name: Prüfen ob Docker installiert ist
+      command: docker info
+      changed_when: false
+
+    - name: Compose-Verzeichnisse prüfen
+      stat:
+        path: "{{ item }}"
+      register: compose_dirs
+      loop: "{{ compose_projects | default([]) }}"
+
+    - name: Neue Images laden
+      command: docker compose pull
+      args:
+        chdir: "{{ item.item }}"
+      loop: "{{ compose_dirs.results }}"
+      when: item.stat.exists
+
+    - name: Eigene Images mit aktualisierter Basis neu bauen
+      command: docker compose build --pull
+      args:
+        chdir: "{{ item.item }}"
+      loop: "{{ compose_dirs.results }}"
+      when:
+        - item.stat.exists
+        - item.item in (compose_build_projects | default([]))
+
+    - name: Container neu erstellen
+      command: docker compose up -d
+      args:
+        chdir: "{{ item.item }}"
+      loop: "{{ compose_dirs.results }}"
+      when: item.stat.exists
+
+    - name: Ungenutzte Images entfernen
+      command: docker image prune -f
