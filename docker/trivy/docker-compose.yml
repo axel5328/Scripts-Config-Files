@@ -1,0 +1,9 @@
+services:
+  trivy:
+    image: aquasec/trivy:latest
+    container_name: trivy
+    profiles: ["scan"]
+    volumes:
+      - ./cache:/root/.cache/
+    entrypoint: ["trivy"]
+    restart: "no"
