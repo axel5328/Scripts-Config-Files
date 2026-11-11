@@ -27,8 +27,8 @@ source_directories:
 repositories:
     - path: ssh://user@backupserver/./sourcehostname.borg
       label: backupserver
-    - path: /mnt/backup
-      label: local
+    - path: /mnt/backup-usb/borg
+      label: usb
 
 # Working directory to use when running actions, useful for backing up
 # using relative source directory paths. Does not currently apply to
@@ -328,13 +328,13 @@ repositories:
 keep_daily: 7
 
 # Number of weekly archives to keep.
-# keep_weekly: 4
+keep_weekly: 4
 
 # Number of monthly archives to keep.
-# keep_monthly: 6
+keep_monthly: 6
 
 # Number of yearly archives to keep.
-# keep_yearly: 1
+keep_yearly: 1
 
 # Deprecated. When pruning or checking archives, only consider archive
 # names starting with this prefix. Borg placeholders can be used. See
