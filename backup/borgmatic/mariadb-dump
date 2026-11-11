@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+: "${MARIADB_PASSWORD:?MARIADB_PASSWORD ist nicht gesetzt}"
+
+export MYSQL_PWD="$MARIADB_PASSWORD"
+
+exec docker exec \
+    --env MYSQL_PWD \
+    nextcloud-db \
+    mariadb-dump "$@"
