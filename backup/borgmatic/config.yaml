@@ -149,7 +149,7 @@ repositories:
 
 # If true, then source directories (and root pattern paths) must
 # exist. If they don't, an error is raised. Defaults to false.
-  source_directories_must_exist: true
+source_directories_must_exist: true
 
 # The standard output of this command is used to unlock the encryption
 # key. Only use on repositories that were initialized with
@@ -201,8 +201,8 @@ repositories:
 
 # Number of times to retry a failing backup before giving up. Defaults
 # to 0 (i.e., does not attempt retry).
-  retries: 3
-  retry_wait: 60
+retries: 3
+retry_wait: 60
 
 # Wait time between retries (in seconds) to allow transient issues
 # to pass. Increases after each retry by that same wait time as a
@@ -347,11 +347,11 @@ keep_yearly: 1
 # List of one or more consistency checks to run on a periodic basis
 # (if "frequency" is set) or every time borgmatic runs checks (if
 # "frequency" is omitted).
-  checks:
-      - name: repository
-        frequency: 2 weeks
-      - name: archives
-        frequency: 1 month
+checks:
+    - name: repository
+      frequency: 2 weeks
+    - name: archives
+      frequency: 1 month
     # Name of the consistency check to run:
     #  * "repository" checks the consistency of the
     # repository.
