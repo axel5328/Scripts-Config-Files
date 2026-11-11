@@ -11,7 +11,9 @@
 # List of source directories and files to back up. Globs and tildes
 # are expanded. Do not backslash spaces in path names.
 source_directories:
-    - /mnt/data/nextcloud/axel/files
+    - /mnt/data/nextcloud
+exclude_patterns:
+    - /mnt/data/nextcloud/appdata_oct0bqcaqcjq/preview
 #    - /mnt/data/media/navidrome
 #    - /mnt/data/media/jellyfin
 
