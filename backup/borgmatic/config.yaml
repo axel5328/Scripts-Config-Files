@@ -35,9 +35,7 @@ mariadb_databases:
     - name: nextcloud
       username: nextcloud
       password: ${MARIADB_PASSWORD}
-      password_transport: environment
-      mariadb_dump_command: docker exec --env MYSQL_PWD nextcloud-db mariadb-dump
-      mariadb_command: docker exec --env MYSQL_PWD nextcloud-db mariadb
+      mariadb_dump_command: /etc/borgmatic/scripts/mariadb-dump
 # Working directory to use when running actions, useful for backing up
 # using relative source directory paths. Does not currently apply to
 # borgmatic configuration file paths or includes. Tildes are expanded.
