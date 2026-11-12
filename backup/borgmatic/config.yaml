@@ -16,7 +16,9 @@ exclude_patterns:
     - /mnt/data/nextcloud/appdata_oct0bqcaqcjq/preview
 #    - /mnt/data/media/navidrome
 #    - /mnt/data/media/jellyfin
-
+ssh_command: ssh -i /root/.ssh/borg-storagebox -p 23 -o IdentitiesOnly=yes
+remote_path: borg-1.4
+upload_rate_limit: 2560
 # A required list of local or remote repositories with paths and
 # optional labels (which can be used with the --repository flag to
 # select a repository). Tildes are expanded. Multiple repositories are
@@ -27,15 +29,16 @@ exclude_patterns:
 # ReadWritePaths list. Prior to borgmatic 1.7.10, repositories was a
 # list of plain path strings.
 repositories:
-    - path: ssh://user@backupserver/./sourcehostname.borg
-      label: backupserver
+    - path: ssh://HETZNER_USER@HETZNER_USER.your-storagebox.de:23/./nextcloud.borg
+      label: hetzner
     - path: /mnt/backup-usb/borg
       label: usb
 mariadb_databases:
     - name: nextcloud
+      hostname: 127.0.0.1
+      port: 3307
       username: nextcloud
       password: ${MARIADB_PASSWORD}
-      mariadb_dump_command: /etc/borgmatic/scripts/mariadb-dump
 # Working directory to use when running actions, useful for backing up
 # using relative source directory paths. Does not currently apply to
 # borgmatic configuration file paths or includes. Tildes are expanded.
@@ -172,7 +175,7 @@ source_directories_must_exist: true
 # encryption. Quote the value if it contains punctuation, so it parses
 # correctly. And backslash any quote or backslash literals as well.
 # Defaults to not set. Supports the "{credential ...}" syntax.
-# encryption_passphrase: "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+encryption_passphrase: ${BORG_PASSPHRASE}
 
 # Number of seconds between each checkpoint during a long-running
 # backup. See https://borgbackup.readthedocs.io/en/stable/faq.html for
